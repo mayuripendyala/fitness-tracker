@@ -21,8 +21,8 @@ mongoose.connect(proces.env.MONGODB_URL || "mongodb://localhost/firnesstracker",
 });
 
 //routes
-app.use(require("./routes/api-routes.js"));
-app.use(require("./routes/html-routes.js"));
+app.use(require("./routes/api-routes.js.js.js"));
+app.use(require("./routes/html-routes.js.js.js"));
 
 
 app.listen(PORT, () =>{
