@@ -5,7 +5,7 @@
 
 
  router.get ("/api/workouts",  (req, res) =>{
-    db.Workout.find({})
+    db.find({})
         .then(dbWorkout => {      
             dbWorkout.forEach(workout => {
                 var total = 0;
@@ -16,46 +16,48 @@
 
             });
 
-            res.json(dbWorkout);
+            res.status(200).json(dbWorkout);
         }).catch(err => {
-            res.json(err);
+            res.status(400).json(err);
         });
 
  });
 
  router.post("/api/workouts/range",(req,res) => {
-     db.Workout.create(body)
+     db.create(body)
      .then((dbData) =>{
-         res.json(dbData);
+        res.status(200).json(dbData);
      })
      .catch((err) =>{
-        res.json(err);
+        res.status(400).json(err);
     });
  });
 
 
- router.get("api/workouts/range",(req,res) => {
+ router.get("/api/workouts/range",(req,res) => {
 
-    db.Workout.find({})
-        .then(dbWorkout => {
-            console.log("ALL WORKOUTS");
-            console.log(dbWorkout);
+        db.find({})
+        .sort({ day: -1 })
+        .then((workout) => {
+            // console.log("ALL WORKOUTS");
+            // console.log(workout.slice(0,7));
 
-            res.json(dbWorkout);
-        }).
-        catch(err => {
-        res.json(err);
+            const sevendayworkout = workout.slice(0,7);
+
+            res.status(200).json(sevendayworkout);
+        })
+        .catch((err) => {
+          res.status(400).json(err);
         });
-
- });
-
-
+}); 
+    
+  
  router.post("/api/workouts",({ body },res)=>{
-    db.Workout.create(body)
+    db.create(body)
             .then((dbWorkout => {
-                res.json(dbWorkout);
+                res.status(200).json(dbWorkout);
             })).catch(err => {
-                res.json(err);
+                res.status(400).json(err);
             });
 
  });
@@ -63,28 +65,17 @@
 
  router.put("/api/workouts/:id", ({body, params }, res)=>{
 
-    db.Workout.findOneAndUpdate(
-        { _id: req.params.id },
+    db.findOneAndUpdate(
+        { _id: params.id },
         {
-            $inc: { totalDuration: req.body.duration },
-            $push: { exercises: req.body }
+            $inc: { totalDuration: body.duration },
+            $push: { exercises: body }
         },
         { new: true }).then(dbWorkout => {
-            res.json(dbWorkout);
+            res.status(200).json(dbWorkout);
         }).catch(err => {
-            res.json(err);
+            res.status(400).json(err);
         });
-
-
-
-
-        // db.findByIdAndUpdate(params.id,{$push :{ exercise :body}})
-        //             .then((dbData) =>{
-        //                 res.json(dbData);
-        //             })
-        //             .catch((err) =>{
-        //                 res.json(err);
-        //             });
 
  });
 
