@@ -10,8 +10,8 @@ router.get("/",(req,res) => {
 });
 
 // GET Request ; Exercise page
-router.get("/excercise", (req,res) => {
-    res.sendFile(path.join(__dirname, "../public/excercise.html"));
+router.get("/exercise", (req,res) => {
+    res.sendFile(path.join(__dirname, "../public/exercise.html"));
 });
 
 // GET Request : Stats Page
